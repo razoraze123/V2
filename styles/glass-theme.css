@@ -1,0 +1,162 @@
+
+:root {
+  /* --- THEME VARIABLES --- */
+  
+  /* Backgrounds - Deep Midnight but slightly richer for saturation effect */
+  --bg-deep: #02020a;
+  
+  /* Typography */
+  --text-primary: #FFFFFF;
+  
+  /* Liquid Glass Settings - ULTRA PREMIUM */
+  --glass-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+  --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+  --glass-blur: 25px; 
+  --glass-saturate: 180%; /* Makes colors behind pop */
+  
+  /* Accents */
+  --accent-orange-rgb: 255, 107, 0;
+}
+
+/* Base Reset */
+body {
+  margin: 0;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Texture de bruit - légèrement plus visible pour la texture */
+.bg-noise {
+  position: relative;
+}
+.bg-noise::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0.05; /* Increased slightly */
+  pointer-events: none;
+  z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Smooth text rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar - Minimalist */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 107, 0, 0.8); }
+
+/* --- COMPONENT CLASSES --- */
+
+/* SPATIAL GLASS - THE LIQUID EFFECT */
+.spatial-glass {
+  /* The Base Material */
+  background: var(--glass-surface);
+  
+  /* The Optical Effect */
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  
+  /* The Structure */
+  border: var(--glass-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.3); /* Top light catch */
+  border-left: 1px solid rgba(255, 255, 255, 0.2); /* Left light catch */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Shadow side */
+  border-right: 1px solid rgba(255, 255, 255, 0.05); /* Shadow side */
+  
+  /* The Depth */
+  box-shadow: 
+    0 20px 40px -10px rgba(0, 0, 0, 0.6), /* Deep shadow */
+    inset 0 0 20px rgba(255, 255, 255, 0.02); /* Inner volume */
+    
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* GLOSS SHEEN - Le reflet "mouillé" sur le dessus */
+.spatial-glass::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 100%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* SPATIAL GLASS - Active/Hover State */
+.spatial-glass-active, 
+.spatial-glass:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 30px 60px -12px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 107, 0, 0.1), /* Subtle orange rim */
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+/* SPATIAL BUTTON - Gem-like buttons */
+.spatial-button {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.spatial-button:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* GLASS INPUTS - Carved Ice Look */
+.glass-input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Inner shadow for depth */
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(var(--accent-orange-rgb), 0.6);
+  box-shadow: 
+    0 0 0 4px rgba(var(--accent-orange-rgb), 0.1),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+/* UTILITY: Masquer les bords pour les listes scrollables */
+.mask-fade-sides {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* UTILITY: Custom selection color */
+::selection {
+  background: rgba(255, 107, 0, 0.3);
+  color: white;
+}
